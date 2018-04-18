@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "16888556406",
+    "firebase_url": "https://conexgroup-bfb62.firebaseio.com",
+    "project_id": "conexgroup-bfb62",
+    "storage_bucket": "conexgroup-bfb62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16888556406:android:414c5d111072bed2",
+        "android_client_info": {
+          "package_name": "com.app.rubio.conexgroup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16888556406-n7msmao00r7qngghffjvo62dmjjmnuq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkO4SYktt33N_VyrfaKa7hVjfTRf4f41s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
