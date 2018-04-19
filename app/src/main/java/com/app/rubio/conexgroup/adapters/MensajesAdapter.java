@@ -1,25 +1,51 @@
 package com.app.rubio.conexgroup.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+
+import com.app.rubio.conexgroup.R;
+import com.app.rubio.conexgroup.models.Mensaje;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rubio on 19/04/2018.
  */
 
 public class MensajesAdapter extends RecyclerView.Adapter<MensajesHolder> {
+
+    private List<Mensaje>mensajeList = new ArrayList<>();
+    private Context c;
+
+    public MensajesAdapter(Context c) {
+        this.c = c;
+    }
+
+    public void addMensaje(Mensaje m){
+        mensajeList.add(m);
+        notifyItemInserted(mensajeList.size());
+    }
+
     @Override
     public MensajesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View v = LayoutInflater.from(c).inflate(R.layout.item_chat,parent,false);
+        return new MensajesHolder(v);
     }
 
     @Override
     public void onBindViewHolder(MensajesHolder holder, int position) {
+        holder.getNombre().setText(mensajeList.get(position).getNombre());
+        holder.getMensaje().setText(mensajeList.get(position).getMensaje());
+        holder.getHora().setText(mensajeList.get(position).getHora());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mensajeList.size();
     }
 }
