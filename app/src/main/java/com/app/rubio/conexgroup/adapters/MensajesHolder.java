@@ -16,6 +16,7 @@ public class MensajesHolder extends RecyclerView.ViewHolder {
     private TextView mensaje;
     private TextView hora;
     private ImageView image_perfil;
+    private ImageView fotoMensaje;
     public MensajesHolder(View itemView) {
         super(itemView);
 
@@ -23,6 +24,7 @@ public class MensajesHolder extends RecyclerView.ViewHolder {
         mensaje = (TextView)itemView.findViewById(R.id.txt_msj_item);
         hora = (TextView)itemView.findViewById(R.id.txt_date_item);
         image_perfil = (ImageView)itemView.findViewById(R.id.img_perfil_item);
+        fotoMensaje = (ImageView)itemView.findViewById(R.id.img_mensaje);
     }
 
     public TextView getNombre() {
@@ -55,5 +57,13 @@ public class MensajesHolder extends RecyclerView.ViewHolder {
 
     public void setImage_perfil(ImageView image_perfil) {
         this.image_perfil = image_perfil;
+    }
+
+    public ImageView getFotoMensaje() {
+        return fotoMensaje;
+    }
+
+    public void setFotoMensaje(ImageView fotoMensaje) {
+        this.fotoMensaje = fotoMensaje;
     }
 }

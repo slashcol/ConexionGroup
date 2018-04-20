@@ -7,6 +7,7 @@ package com.app.rubio.conexgroup.models;
 public class Mensaje {
     private String mensaje;
     private String nombre;
+    private String urlFoto;
     private String foto_perfil;
     private String type_mensaje;
     private String hora;
@@ -17,6 +18,15 @@ public class Mensaje {
     public Mensaje(String mensaje, String nombre, String foto_perfil, String type_mensaje, String hora) {
         this.mensaje = mensaje;
         this.nombre = nombre;
+        this.foto_perfil = foto_perfil;
+        this.type_mensaje = type_mensaje;
+        this.hora = hora;
+    }
+
+    public Mensaje(String mensaje, String nombre, String urlFoto, String foto_perfil, String type_mensaje, String hora) {
+        this.mensaje = mensaje;
+        this.nombre = nombre;
+        this.urlFoto = urlFoto;
         this.foto_perfil = foto_perfil;
         this.type_mensaje = type_mensaje;
         this.hora = hora;
@@ -60,5 +70,13 @@ public class Mensaje {
 
     public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }

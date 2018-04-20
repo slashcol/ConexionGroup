@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.app.rubio.conexgroup.R;
 import com.app.rubio.conexgroup.models.Mensaje;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,14 @@ public class MensajesAdapter extends RecyclerView.Adapter<MensajesHolder> {
         holder.getNombre().setText(mensajeList.get(position).getNombre());
         holder.getMensaje().setText(mensajeList.get(position).getMensaje());
         holder.getHora().setText(mensajeList.get(position).getHora());
-
+        if (mensajeList.get(position).getType_mensaje().equals("2")) {
+            holder.getFotoMensaje().setVisibility(View.VISIBLE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+            Glide.with(c).load(mensajeList.get(position).getUrlFoto()).into(holder.getFotoMensaje());
+        }else if(mensajeList.get(position).getType_mensaje().equals("1")){
+            holder.getFotoMensaje().setVisibility(View.GONE);
+            holder.getMensaje().setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.app.rubio.conexgroup.uis;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,11 +16,15 @@ import android.widget.TextView;
 import com.app.rubio.conexgroup.R;
 import com.app.rubio.conexgroup.adapters.MensajesAdapter;
 import com.app.rubio.conexgroup.models.Mensaje;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btn_send_img;
 
     private MensajesAdapter adapter;
-
+    private static final int PHOTO_SEND = 1;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +80,20 @@ public class MainActivity extends AppCompatActivity {
                 setScrollbar();
             }
         });
+        btn_send_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+                startActivityForResult(Intent.createChooser(intent,"Selecciona una imagen"),PHOTO_SEND);
+            }
+        });
     }
     private void configDatabse(){
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("chat");
+        storage = FirebaseStorage.getInstance();
     }
     private void eventsChat(){
         databaseReference.addChildEventListener(new ChildEventListener() {
@@ -108,5 +126,23 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setScrollbar(){
         rv_list_chat.scrollToPosition(adapter.getItemCount()-1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PHOTO_SEND && resultCode == RESULT_OK ){
+            Uri uri = data.getData();
+            storageReference = storage.getReference("imagenes_chat");
+            final StorageReference fotoReferencia = storageReference.child(uri.getLastPathSegment());
+            fotoReferencia.putFile(uri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri u = taskSnapshot.getDownloadUrl();
+                    Mensaje m = new Mensaje("Rubio te ha enviado un mensaje",u.toString(),txt_name.getText().toString(),"","2","00:00");
+                    databaseReference.push().setValue(m);
+                }
+            });
+        }
     }
 }
