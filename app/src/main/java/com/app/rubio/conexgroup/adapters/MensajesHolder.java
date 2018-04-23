@@ -10,7 +10,6 @@ import com.app.rubio.conexgroup.R;
 /**
  * Created by Rubio on 19/04/2018.
  */
-
 public class MensajesHolder extends RecyclerView.ViewHolder {
     private TextView nombre;
     private TextView mensaje;

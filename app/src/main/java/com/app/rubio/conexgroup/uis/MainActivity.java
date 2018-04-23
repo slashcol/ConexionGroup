@@ -16,12 +16,15 @@ import android.widget.TextView;
 import com.app.rubio.conexgroup.R;
 import com.app.rubio.conexgroup.adapters.MensajesAdapter;
 import com.app.rubio.conexgroup.models.Mensaje;
+import com.app.rubio.conexgroup.models.MsjIn;
+import com.app.rubio.conexgroup.models.MsjSend;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        getSupportActionBar().hide();
         initializeViews();
         configDatabse();
         eventsChat();
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //adapter.addMensaje(new Mensaje(edt_msj.getText().toString(),txt_name.getText().toString(),"","1","00:00"));
-                databaseReference.push().setValue(new Mensaje(edt_msj.getText().toString(),txt_name.getText().toString(),"","1","00:00"));
+                databaseReference.push().setValue(new MsjSend(edt_msj.getText().toString(),txt_name.getText().toString(),"","1", ServerValue.TIMESTAMP));
                 edt_msj.setText("");
             }
         });
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Mensaje m = dataSnapshot.getValue(Mensaje.class);
+                MsjIn m = dataSnapshot.getValue(MsjIn.class);
                 adapter.addMensaje(m);
             }
 
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri u = taskSnapshot.getDownloadUrl();
-                    Mensaje m = new Mensaje("Rubio te ha enviado un mensaje",u.toString(),txt_name.getText().toString(),"","2","00:00");
+                    MsjSend m = new MsjSend("Rubio te ha enviado un mensaje",u.toString(),txt_name.getText().toString(),"","2",ServerValue.TIMESTAMP);
                     databaseReference.push().setValue(m);
                 }
             });
